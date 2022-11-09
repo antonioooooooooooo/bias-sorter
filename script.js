@@ -7,7 +7,6 @@ const container = document.querySelector("[data-container]");
 let optionsList = [];
 let sortingIterations;
 let battleNum;
-let percentSorted;
 
 submitButton.addEventListener("click", handleSubmit);
 
@@ -150,7 +149,6 @@ function handleClickStart(e) {
   shuffle(optionsList);
   sortingIterations = optionsList.length - 1;
   battleNum = 1;
-  percentSorted = 0;
 
   const firstOption = document.createElement("div");
   firstOption.setAttribute("class", "option-button first-option sorter-button");
