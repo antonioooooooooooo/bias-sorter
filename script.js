@@ -6,6 +6,8 @@ const container = document.querySelector("[data-container]");
 
 let optionsList = [];
 let sortingIterations;
+let battleNum;
+let percentSorted;
 
 submitButton.addEventListener("click", handleSubmit);
 
@@ -110,8 +112,6 @@ function handleClickDeleteButton(event) {
     optionsListElem.classList.remove("options");
     optionsListElem.classList.add("initial-options");
   }
-
-  console.log(optionsList);
 }
 
 function handleClickStart(e) {
@@ -149,6 +149,8 @@ function handleClickStart(e) {
 
   shuffle(optionsList);
   sortingIterations = optionsList.length - 1;
+  battleNum = 1;
+  percentSorted = 0;
 
   const firstOption = document.createElement("div");
   firstOption.setAttribute("class", "option-button first-option sorter-button");
@@ -294,10 +296,18 @@ function handleClickOptionButton(e) {
     }
   }
 
-  console.log(optionsList);
-
   if (sortingIterations === 0) {
     generateResultsChart();
+    document.querySelector("[data-sorted-percent]").innerHTML = "100% sorted";
+  } else {
+    battleNum++;
+    document.querySelector(
+      "[data-battle-header]"
+    ).innerHTML = `Battle #${battleNum}`;
+    document.querySelector("[data-sorted-percent]").innerHTML = `${Math.round(
+      ((battleNum - 1) * 100) /
+        ((optionsList.length * (optionsList.length - 1)) / 2)
+    )}% sorted`;
   }
 }
 
@@ -349,6 +359,11 @@ function handleClickILikeBoth(e) {
             ...optionsList.slice(minInd + 2),
           ];
 
+    if (sortingIterations < 1) {
+      generateResultsChart();
+      return;
+    }
+
     if (minInd === parseInt(firstInd)) {
       secondOption.innerText =
         typeof optionsList[minInd + 1] === "string"
@@ -392,6 +407,7 @@ function handleClickILikeBoth(e) {
 
     if (sortingIterations < 1) {
       generateResultsChart();
+      document.querySelector("[data-sorted-percent]").innerHTML = "100% sorted";
       return;
     }
 
@@ -408,7 +424,14 @@ function handleClickILikeBoth(e) {
     sortingIterations--;
   }
 
-  console.log(optionsList);
+  battleNum++;
+  document.querySelector(
+    "[data-battle-header]"
+  ).innerHTML = `Battle #${battleNum}`;
+  document.querySelector("[data-sorted-percent]").innerHTML = `${Math.round(
+    ((battleNum - 1) * 100) /
+      ((optionsList.length * (optionsList.length - 1)) / 2)
+  )}% sorted`;
 }
 
 function generateResultsChart() {
