@@ -114,7 +114,7 @@ function handleClickDeleteButton(event) {
 }
 
 function handleClickStart(e) {
-  e.preventDefault;
+  e.preventDefault();
 
   let child = container.lastElementChild;
 
